@@ -12,7 +12,15 @@ export const Login= () => {
     const handleLoginClick = () =>{
         login(email,password,dispatch)
     }
-//useEffect to send use to private page
+
+     useEffect(() => {
+        if (store.isLoginSuccessful) {
+            navigate('/Private');
+        }
+        
+    }, [store.isLoginSuccessful]);
+
+
     return (
         <>
             <div className="login-page">
