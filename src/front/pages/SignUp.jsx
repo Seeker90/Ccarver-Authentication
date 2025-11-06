@@ -20,10 +20,8 @@ export const SignUp= () => {
         }, [store.isSignUpSuccessful]);
 
     return (
-        <>
             <div className="signUp-page text-center mt-5">
-                <>
-                <div className="loginscreen text-center mt-5">
+                <div>
                 <h1>Sign Up</h1>
                 <div>
                     <input
@@ -49,9 +47,7 @@ export const SignUp= () => {
                     </button>
                 </div>
                 </div>
-                </>
             </div>
-        </>
     )
 }
 

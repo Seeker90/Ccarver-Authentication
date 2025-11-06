@@ -9,9 +9,11 @@ export const Layout = () => {
     
     return (
         <ScrollToTop>
-            <Navbar dispatch={dispatch} />
+            <div className="d-flex flex-column min-vh-100">
+                <Navbar dispatch={dispatch} />
                 <Outlet />
-            <Footer />
+                <Footer />
+            </div>
         </ScrollToTop>
     )
 }
