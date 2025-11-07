@@ -2,7 +2,7 @@
 This module takes care of starting the API Server, Loading the DB and Adding the endpoints
 """
 from flask import Flask, request, jsonify, url_for, Blueprint
-from api.models import db, User
+from api.models import db, User, Invoice
 from api.utils import generate_sitemap, APIException
 from flask_cors import CORS
 from flask_jwt_extended import create_access_token
@@ -29,7 +29,7 @@ def generate_token():
         return jsonify({'msg': 'Sorry Email or password is not found.'}), 401
  
 
-    access_token = create_access_token(identity=user.id)
+    access_token = create_access_token(identity=str(user.id))
     
     response = {
         'access_token': access_token,
@@ -62,3 +62,22 @@ def new_signup():
         "message": f'{new_user} was successfully added! Please log in.'
     }
     return jsonify(response), 201
+@api.route('/invoices', methods=['GET'])
+@jwt_required()
+def get_invoices():
+    user_id = get_jwt_identity()
+
+    user=User.query.filter_by(id=user_id).first()
+    user_invoices = Invoice.query.filter_by(user_id=user_id).all()
+    processed_invoices = [each_invoice.serialize() for each_invoice in user_invoices]
+    if user_invoices is None or len(processed_invoices) == 0:
+        response = {
+            "message": f'{user.email}, you have no invoices.',
+            "invoices": processed_invoices
+        }
+        return jsonify(response), 200
+    response = {
+        "message": f'Here are your invoices, {user.email}!',
+        "invoices": processed_invoices,
+    }
+    return jsonify(response), 200

@@ -33,7 +33,7 @@ export const SignUp= () => {
                 </div>
                 <div>
                     <input
-                        type="text"
+                        type="password"
                         placeholder="Enter password"
                         value={password}
                         onChange={e => setPassword(e.target.value)}
